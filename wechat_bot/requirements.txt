@@ -1,0 +1,2 @@
+git+https://github.com/cluic/wxauto.git
+requests

@@ -1,0 +1,474 @@
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #18181b;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* 主题切换渐变：让“白天/黑夜”手感更柔和 */
+html, body,
+.bg-zinc-50, .bg-white,
+.bg-zinc-900, .bg-zinc-800, .bg-zinc-700,
+.bg-amber-50, .bg-blue-50, .bg-emerald-50, .bg-red-50,
+.border-zinc-200, .border-zinc-100,
+.border-amber-100, .border-amber-200, .border-blue-200, .border-emerald-200, .border-red-200,
+.text-zinc-900, .text-zinc-700, .text-zinc-600, .text-zinc-500, .text-zinc-400 {
+  transition:
+    background-color 260ms cubic-bezier(0.25,0.46,0.45,0.94),
+    color 260ms cubic-bezier(0.25,0.46,0.45,0.94),
+    border-color 260ms cubic-bezier(0.25,0.46,0.45,0.94);
+}
+
+/* ── 主题：暖米白（可回档） ─────────────────────────────────────────────── */
+.theme-warm {
+  /* base */
+  --background: #fbf7ef; /* 米白底 */
+  --foreground: #18181b;
+
+  /* surfaces */
+  --warm-surface: #fffdf7;     /* 卡片底 */
+  --warm-surface-2: #faf3e6;   /* 柔和强调底 */
+  --warm-border: #efe4d5;      /* 边框 */
+  --warm-border-2: #f5eee2;    /* 更淡边框 */
+}
+
+/* 仅在暖米白主题下，柔和覆盖常见底色/边框工具类（保留原配色体系便于回档） */
+.theme-warm .bg-zinc-50 { background-color: var(--background) !important; }
+.theme-warm .bg-white   { background-color: var(--warm-surface) !important; }
+.theme-warm .border-zinc-200 { border-color: var(--warm-border) !important; }
+.theme-warm .border-zinc-100 { border-color: var(--warm-border-2) !important; }
+.theme-warm .shadow-zinc-100 { --tw-shadow-color: rgba(120, 94, 57, 0.08) !important; }
+
+/* 细节质感：页面背景轻微暖色渐变（不影响卡片） */
+.theme-warm body {
+  background:
+    radial-gradient(1200px 600px at 20% -10%, rgba(245, 158, 11, 0.08), transparent 55%),
+    radial-gradient(900px 500px at 85% 0%, rgba(59, 130, 246, 0.06), transparent 55%),
+    var(--background);
+}
+
+/* ── 主题：暖夜色（夜间模式） ───────────────────────────────────────────── */
+/* 说明：在保留“暖米白体系”的基础上加深为暖黑，减少刺眼蓝灰 */
+.theme-warm.theme-night {
+  --background: #0f0d0b;
+  --foreground: #f5f5f4;
+  --warm-surface: #151210;
+  --warm-surface-2: #1b1713;
+  --warm-border: #2a241d;
+  --warm-border-2: #231e19;
+}
+
+.theme-warm.theme-night .bg-zinc-50 { background-color: var(--background) !important; }
+.theme-warm.theme-night .bg-white   { background-color: var(--warm-surface) !important; }
+.theme-warm.theme-night .border-zinc-200 { border-color: var(--warm-border) !important; }
+.theme-warm.theme-night .border-zinc-100 { border-color: var(--warm-border-2) !important; }
+
+/* 夜间：深色块别“死黑”，统一成暖深色卡片 */
+.theme-warm.theme-night .bg-zinc-900 { background-color: #171311 !important; }
+.theme-warm.theme-night .bg-zinc-800 { background-color: #1d1815 !important; }
+.theme-warm.theme-night .bg-zinc-700 { background-color: #221c18 !important; }
+
+/* 夜间：提示/强调底色改为深色提示条（避免浅黄浅蓝刺眼） */
+.theme-warm.theme-night .bg-amber-50 { background-color: rgba(245, 158, 11, 0.12) !important; }
+.theme-warm.theme-night .border-amber-100,
+.theme-warm.theme-night .border-amber-200 { border-color: rgba(245, 158, 11, 0.22) !important; }
+.theme-warm.theme-night .text-amber-800,
+.theme-warm.theme-night .text-amber-900 { color: rgba(253, 230, 138, 0.95) !important; }
+
+.theme-warm.theme-night .bg-blue-50 { background-color: rgba(59, 130, 246, 0.12) !important; }
+.theme-warm.theme-night .border-blue-200 { border-color: rgba(59, 130, 246, 0.22) !important; }
+.theme-warm.theme-night .text-blue-700 { color: rgba(191, 219, 254, 0.95) !important; }
+
+.theme-warm.theme-night .bg-emerald-50 { background-color: rgba(16, 185, 129, 0.12) !important; }
+.theme-warm.theme-night .border-emerald-200 { border-color: rgba(16, 185, 129, 0.22) !important; }
+.theme-warm.theme-night .text-emerald-700 { color: rgba(167, 243, 208, 0.95) !important; }
+
+.theme-warm.theme-night .bg-red-50 { background-color: rgba(239, 68, 68, 0.12) !important; }
+.theme-warm.theme-night .border-red-200 { border-color: rgba(239, 68, 68, 0.22) !important; }
+.theme-warm.theme-night .text-red-500 { color: rgba(252, 165, 165, 0.95) !important; }
+
+/* 常用文字色在夜间的覆盖（避免 text-zinc-900 过暗看不见） */
+.theme-warm.theme-night .text-zinc-900 { color: #fafaf9 !important; }
+.theme-warm.theme-night .text-zinc-800 { color: #f5f5f4 !important; }
+.theme-warm.theme-night .text-zinc-700 { color: #e7e5e4 !important; }
+.theme-warm.theme-night .text-zinc-600 { color: #d6d3d1 !important; }
+.theme-warm.theme-night .text-zinc-500 { color: #a8a29e !important; }
+.theme-warm.theme-night .text-zinc-400 { color: #78716c !important; }
+.theme-warm.theme-night .text-zinc-300 { color: #57534e !important; }
+
+/* 夜间阴影更克制，避免“白天的阴影”显脏 */
+.theme-warm.theme-night .shadow-zinc-100 { --tw-shadow-color: rgba(0, 0, 0, 0.55) !important; }
+
+/* 夜间：Tailwind hover/focus 工具类覆盖（避免 hover 变浅导致文字糊掉） */
+.theme-warm.theme-night .hover\:bg-zinc-50:hover { background-color: rgba(255,255,255,0.06) !important; }
+.theme-warm.theme-night .hover\:bg-zinc-50\/60:hover { background-color: rgba(255,255,255,0.06) !important; }
+.theme-warm.theme-night .bg-zinc-50\/60 { background-color: rgba(255,255,255,0.05) !important; }
+.theme-warm.theme-night .bg-zinc-50\/80 { background-color: rgba(255,255,255,0.065) !important; }
+
+/* 夜间卡片阴影：避免浅灰 shadow-zinc 在暖黑底上发脏、发灰 */
+.theme-warm.theme-night .shadow-zinc-200\/40 {
+  --tw-shadow-color: rgba(0, 0, 0, 0.55) !important;
+}
+.theme-warm.theme-night .hover\:bg-zinc-100:hover { background-color: rgba(255,255,255,0.08) !important; }
+.theme-warm.theme-night .hover\:bg-zinc-200:hover { background-color: rgba(255,255,255,0.10) !important; }
+.theme-warm.theme-night .hover\:bg-white:hover { background-color: rgba(255,255,255,0.07) !important; }
+
+.theme-warm.theme-night .hover\:bg-amber-50:hover { background-color: rgba(245, 158, 11, 0.14) !important; }
+.theme-warm.theme-night .hover\:bg-blue-50:hover { background-color: rgba(59, 130, 246, 0.14) !important; }
+.theme-warm.theme-night .hover\:bg-emerald-50:hover { background-color: rgba(16, 185, 129, 0.14) !important; }
+.theme-warm.theme-night .hover\:bg-red-50:hover { background-color: rgba(239, 68, 68, 0.14) !important; }
+
+/* yellow：用于“暂停中”状态徽章 */
+.theme-warm.theme-night .bg-yellow-50 { background-color: rgba(234, 179, 8, 0.12) !important; }
+.theme-warm.theme-night .border-yellow-200 { border-color: rgba(234, 179, 8, 0.22) !important; }
+.theme-warm.theme-night .text-yellow-700 { color: rgba(254, 240, 138, 0.95) !important; }
+
+.theme-warm.theme-night .hover\:border-zinc-300:hover { border-color: rgba(255,255,255,0.16) !important; }
+.theme-warm.theme-night .hover\:border-zinc-400:hover { border-color: rgba(255,255,255,0.20) !important; }
+.theme-warm.theme-night .hover\:text-zinc-900:hover { color: #fafaf9 !important; }
+.theme-warm.theme-night .hover\:text-zinc-700:hover { color: #e7e5e4 !important; }
+
+/* 夜间：placeholder 颜色提亮一点（否则像“没输入”） */
+.theme-warm.theme-night .placeholder\:text-zinc-400::placeholder { color: rgba(120, 113, 108, 0.9) !important; }
+.theme-warm.theme-night .placeholder-zinc-400::placeholder { color: rgba(120, 113, 108, 0.9) !important; }
+.theme-warm.theme-night .placeholder-zinc-300::placeholder { color: rgba(168, 162, 158, 0.55) !important; }
+
+/* 夜间质感背景：更克制的暖色光晕 */
+.theme-warm.theme-night body {
+  background:
+    radial-gradient(1100px 560px at 20% -10%, rgba(245, 158, 11, 0.10), transparent 58%),
+    radial-gradient(900px 520px at 85% 0%, rgba(59, 130, 246, 0.07), transparent 58%),
+    var(--background);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+/* ── 滚动条 ── */
+::-webkit-scrollbar { width: 4px; height: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #d4d4d8; border-radius: 2px; }
+::-webkit-scrollbar-thumb:hover { background: #a1a1aa; }
+
+/* ── 基础动画关键帧 ── */
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0; }
+}
+@keyframes slide-up {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes slide-in-right {
+  from { opacity: 0; transform: translateX(14px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+@keyframes fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes scale-in {
+  from { opacity: 0; transform: scale(0.94); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+/* ── iOS 灵动岛：更温柔的过渡 ── */
+@keyframes island-open {
+  0%   { transform: translateZ(0) scale(0.996); }
+  70%  { transform: translateZ(0) scale(1.006); }
+  100% { transform: translateZ(0) scale(1); }
+}
+@keyframes island-close {
+  0%   { transform: translateZ(0) scale(1); }
+  100% { transform: translateZ(0) scale(0.995); }
+}
+@keyframes island-panel-in {
+  0%   { opacity: 0; transform: translateY(10px) scale(0.988); filter: blur(3px); }
+  75%  { opacity: 1; transform: translateY(0px) scale(1.003); filter: blur(0px); }
+  100% { opacity: 1; transform: translateY(0px) scale(1); filter: blur(0px); }
+}
+@keyframes island-panel-out {
+  0%   { opacity: 1; transform: translateY(0px) scale(1); }
+  100% { opacity: 0; transform: translateY(6px) scale(0.99); }
+}
+
+/* 灵动岛：暗绿「运行中」指示 — 双层光晕 + 内核微呼吸（比单色缩放更自然） */
+.island-status-led-wrap {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  width: 14px;
+  height: 14px;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+.island-status-led-halo {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 10px;
+  height: 10px;
+  margin-left: -5px;
+  margin-top: -5px;
+  border-radius: 9999px;
+  border: 1.5px solid rgba(52, 211, 153, 0.42);
+  will-change: transform, opacity;
+}
+.island-status-led-halo--a {
+  animation: island-led-halo-a 2.75s cubic-bezier(0.45, 0, 0.2, 1) infinite;
+}
+.island-status-led-halo--b {
+  border-color: rgba(16, 185, 129, 0.22);
+  animation: island-led-halo-b 2.75s cubic-bezier(0.45, 0, 0.2, 1) 1.05s infinite;
+}
+.island-status-led-core {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 6px;
+  height: 6px;
+  margin-left: -3px;
+  margin-top: -3px;
+  border-radius: 9999px;
+  background:
+    radial-gradient(circle at 32% 28%, rgba(220, 252, 231, 0.95) 0%, transparent 45%),
+    linear-gradient(155deg, #10b981 0%, #042f2e 92%);
+  box-shadow:
+    inset 0 1px 1px rgba(255, 255, 255, 0.45),
+    0 0 10px rgba(16, 185, 129, 0.38);
+  will-change: transform, filter;
+  animation: island-led-core 2.15s cubic-bezier(0.37, 0.02, 0.23, 1) infinite;
+}
+@keyframes island-led-halo-a {
+  0% {
+    transform: scale(0.72);
+    opacity: 0.55;
+  }
+  55% {
+    transform: scale(1.85);
+    opacity: 0;
+  }
+  56% {
+    transform: scale(0.72);
+    opacity: 0;
+  }
+  57% {
+    opacity: 0.45;
+  }
+  100% {
+    transform: scale(0.72);
+    opacity: 0.55;
+  }
+}
+@keyframes island-led-halo-b {
+  0% {
+    transform: scale(0.85);
+    opacity: 0.35;
+  }
+  60% {
+    transform: scale(2.05);
+    opacity: 0;
+  }
+  61% {
+    transform: scale(0.85);
+    opacity: 0;
+  }
+  62% {
+    opacity: 0.28;
+  }
+  100% {
+    transform: scale(0.85);
+    opacity: 0.35;
+  }
+}
+@keyframes island-led-core {
+  0%, 100% {
+    transform: scale(1);
+    filter: brightness(0.95) saturate(1.05);
+  }
+  35% {
+    transform: scale(1.08);
+    filter: brightness(1.18) saturate(1.12);
+  }
+  70% {
+    transform: scale(0.97);
+    filter: brightness(1.05) saturate(1.08);
+  }
+}
+
+.dynamic-island {
+  will-change: width, height, border-radius, box-shadow, transform;
+}
+.dynamic-island:hover {
+  animation: island-open 640ms cubic-bezier(0.2,0.9,0.2,1) both;
+}
+.dynamic-island-panel {
+  will-change: transform, opacity, filter;
+}
+.dynamic-island:hover .dynamic-island-panel {
+  animation: island-panel-in 520ms cubic-bezier(0.2,0.9,0.2,1) 110ms both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dynamic-island:hover { animation: none; }
+  .dynamic-island:hover .dynamic-island-panel { animation: none; }
+  .island-status-led-halo--a,
+  .island-status-led-halo--b,
+  .island-status-led-core { animation: none !important; }
+  .island-status-led-core {
+    filter: none;
+    opacity: 0.95;
+  }
+}
+@keyframes shimmer {
+  0%   { background-position: -200% 0; }
+  100% { background-position:  200% 0; }
+}
+@keyframes pulse-ring {
+  0%   { box-shadow: 0 0 0 0 rgba(245,158,11,0.35); }
+  70%  { box-shadow: 0 0 0 8px rgba(245,158,11,0); }
+  100% { box-shadow: 0 0 0 0 rgba(245,158,11,0); }
+}
+@keyframes check-pop {
+  0%   { transform: scale(0.5); opacity: 0; }
+  60%  { transform: scale(1.2); }
+  100% { transform: scale(1);   opacity: 1; }
+}
+
+/* ── 动画工具类 ── */
+.cursor-blink {
+  display: inline-block;
+  width: 2px;
+  height: 1em;
+  background: currentColor;
+  margin-left: 2px;
+  vertical-align: text-bottom;
+  animation: blink 0.9s step-end infinite;
+}
+
+.msg-enter  { animation: slide-up       0.22s ease-out both; }
+.step-enter { animation: slide-in-right 0.25s ease-out both; }
+.page-enter { animation: fade-in        0.2s  ease-out both; }
+.card-enter { animation: scale-in       0.2s  ease-out both; }
+
+/* 骨架屏闪烁 */
+.skeleton {
+  background: linear-gradient(90deg, #f4f4f5 25%, #e4e4e7 50%, #f4f4f5 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.4s infinite;
+  border-radius: 0.75rem;
+}
+
+/* ── 按钮：通用交互规范 ── */
+
+/* 更明确的“3D 物理反馈”：悬停微凸起、按下微凹陷 */
+button:not(:disabled),
+a[role="button"]:not(:disabled) {
+  transition: transform 0.14s ease, box-shadow 0.14s ease, filter 0.14s ease;
+}
+button:not(:disabled):hover,
+a[role="button"]:not(:disabled):hover {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 22px rgba(0,0,0,0.10);
+}
+button:not(:disabled):active,
+a[role="button"]:not(:disabled):active {
+  transform: translateY(0px);
+  box-shadow: inset 0 2px 10px rgba(0,0,0,0.18);
+  filter: saturate(0.98);
+}
+
+/* hover 轻浮效果（加在需要的元素上） */
+.card-hover {
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+.card-hover:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.07);
+}
+
+/* 主操作按钮圈 ripple */
+.btn-primary {
+  position: relative;
+  overflow: hidden;
+}
+.btn-primary::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(255,255,255,0.15);
+  opacity: 0;
+  transition: opacity 0.15s;
+}
+.btn-primary:hover::after { opacity: 1; }
+.btn-primary:active::after { opacity: 0.3; }
+
+/* ── 侧边栏 ── */
+.sidebar-nav { transition: width 0.2s cubic-bezier(0.4,0,0.2,1); }
+
+/* ── 导航项 ── */
+.nav-item { transition: background 0.12s, color 0.12s; }
+.nav-item:hover { background: #f4f4f5; }
+
+/* 夜间模式：修复 hover 变浅导致文字看不清，同时给“凸起/按下”反馈 */
+.theme-warm.theme-night .nav-item {
+  transition: background 0.14s ease, color 0.14s ease, transform 0.14s ease, box-shadow 0.14s ease;
+}
+.theme-warm.theme-night .nav-item:hover {
+  background: rgba(255,255,255,0.06);
+  transform: translateY(-1px);
+  box-shadow: 0 10px 18px rgba(0,0,0,0.35);
+}
+.theme-warm.theme-night .nav-item:active {
+  transform: translateY(0);
+  box-shadow: inset 0 2px 10px rgba(0,0,0,0.45);
+}
+
+/* ── 浮动聊天面板 ── */
+.chat-panel-enter {
+  animation: scale-in 0.18s cubic-bezier(0.4,0,0.2,1) both;
+}
+
+/* ── 成功状态弹出 ── */
+.success-check {
+  animation: check-pop 0.3s cubic-bezier(0.34,1.56,0.64,1) both;
+}
+
+/* ── 输入框 focus 效果 ── */
+input:focus-visible,
+textarea:focus-visible {
+  outline: none;
+}
+
+/* ── 步骤条高亮过渡 ── */
+.step-bar-fill {
+  transition: background 0.3s ease, width 0.4s ease;
+}
+
+/* ── 折叠区域过渡 ── */
+.collapsible-enter {
+  animation: slide-up 0.2s ease-out both;
+}
+
+/* ── Toast / 状态提示 ── */
+@keyframes toast-in {
+  from { opacity: 0; transform: translateY(6px) scale(0.97); }
+  to   { opacity: 1; transform: translateY(0)   scale(1); }
+}
+.toast {
+  animation: toast-in 0.2s ease-out both;
+}
+
+/* ── 数字大字 ── */
+.metric-num {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum";
+}
